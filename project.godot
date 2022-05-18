@@ -11,12 +11,12 @@ config_version=4
 [application]
 
 config/name="Sneku"
+run/main_scene="res://MainGame.tscn"
 config/icon="res://icon.png"
 
 [display]
 
-window/size/width=800
-window/size/height=800
+window/size/width=600
 
 [physics]
 
