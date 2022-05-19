@@ -66,7 +66,7 @@ func draw_snake():
 				if prevoius_part.x == 1 and next_part.y == -1 or next_part.x == 1 and prevoius_part.y == -1:
 					$SnakeApple.set_cell(snake_part.x, snake_part.y, SNAKE, true, false, false, Vector2(6,1))	
 				if prevoius_part.x == 1 and next_part.y == 1 or next_part.x == 1 and prevoius_part.y == 1:
-					$SnakeApple.set_cell(snake_part.x, snake_part.y, SNAKE, true, t, false, Vector2(6,1))
+					$SnakeApple.set_cell(snake_part.x, snake_part.y, SNAKE, true, true, false, Vector2(6,1))
 
 
 func relation2(first_part:Vector2, second_part:Vector2):
