@@ -110,6 +110,7 @@ func check_apple_eaten():
 	if apple_pos == snake_body[0]:
 		apple_pos = place_apple()
 		add_apple = true
+		get_tree().call_group("ScoreGroup", "update_score", snake_body.size())
 		
 
 func check_game_over():
@@ -125,6 +126,7 @@ func check_game_over():
 func reset():
 	snake_body = [Vector2(4,8), Vector2(3,8), Vector2(2,8)]
 	snake_dir = Vector2(1,0)
+	get_tree().call_group("ScoreGroup", "update_score", snake_body.size())
 
 
 func _on_SnakeTick_timeout():
