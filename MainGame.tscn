@@ -11,7 +11,7 @@
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 320, 80 )
 0/tile_mode = 2
-0/autotile/icon_coordinate = Vector2( 2, 1 )
+0/autotile/icon_coordinate = Vector2( 0, 0 )
 0/autotile/tile_size = Vector2( 40, 40 )
 0/autotile/spacing = 0
 0/autotile/occluder_map = [  ]
@@ -55,3 +55,9 @@ script = ExtResource( 2 )
 tile_set = SubResource( 1 )
 cell_size = Vector2( 40, 40 )
 format = 1
+
+[node name="SnakeTick" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
+
+[connection signal="timeout" from="SnakeTick" to="." method="_on_SnakeTick_timeout"]
