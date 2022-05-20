@@ -6,6 +6,7 @@ var apple_pos : Vector2
 var snake_body := [Vector2(4,8), Vector2(3,8), Vector2(2,8)]
 var snake_dir := Vector2(1, 0)
 var add_apple = false
+var snake_moved = false
 
 func _ready()->void:
 	apple_pos = place_apple()
@@ -99,11 +100,19 @@ func delete_tiles(id:int):
 		$SnakeApple.set_cell(cell.x, cell.y, -1)
 
 
-func _input(event):
-	if Input.is_action_just_pressed("ui_up") and snake_dir != Vector2.DOWN: snake_dir = Vector2.UP
-	if Input.is_action_just_pressed("ui_down") and snake_dir != Vector2.UP: snake_dir = Vector2.DOWN
-	if Input.is_action_just_pressed("ui_left") and snake_dir != Vector2.RIGHT: snake_dir = Vector2.LEFT
-	if Input.is_action_just_pressed("ui_right") and snake_dir != Vector2.LEFT: snake_dir = Vector2.RIGHT
+func _input(_event):
+	if Input.is_action_just_pressed("ui_up") and snake_dir != Vector2.DOWN and !snake_moved: 
+		snake_dir = Vector2.UP
+		snake_moved = true
+	if Input.is_action_just_pressed("ui_down") and snake_dir != Vector2.UP and !snake_moved: 
+		snake_dir = Vector2.DOWN
+		snake_moved = true
+	if Input.is_action_just_pressed("ui_left") and snake_dir != Vector2.RIGHT and !snake_moved: 
+		snake_dir = Vector2.LEFT
+		snake_moved = true
+	if Input.is_action_just_pressed("ui_right") and snake_dir != Vector2.LEFT and !snake_moved: 
+		snake_dir = Vector2.RIGHT
+		snake_moved = true
 
 
 func check_apple_eaten():
@@ -111,7 +120,8 @@ func check_apple_eaten():
 		apple_pos = place_apple()
 		add_apple = true
 		get_tree().call_group("ScoreGroup", "update_score", snake_body.size())
-		
+		$CrunchSound.play()
+
 
 func check_game_over():
 	var snake_head = snake_body[0]
@@ -127,12 +137,18 @@ func reset():
 	snake_body = [Vector2(4,8), Vector2(3,8), Vector2(2,8)]
 	snake_dir = Vector2(1,0)
 	get_tree().call_group("ScoreGroup", "update_score", snake_body.size())
+	snake_moved = false
 
 
 func _on_SnakeTick_timeout():
 	move_snake()
 	draw_apple()
 	draw_snake()
+	snake_moved = false
 	check_apple_eaten()
-	check_game_over()
 
+
+func _process(_delta):
+	check_game_over()
+	if apple_pos in snake_body:
+		apple_pos = place_apple()
