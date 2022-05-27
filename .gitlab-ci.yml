@@ -61,7 +61,7 @@ pages:
     paths:
       - public
   only:
-   - develop
+   - master
 
 itch:
   stage: deploy
