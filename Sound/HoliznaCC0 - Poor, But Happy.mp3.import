@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/HoliznaCC0 - Poor, But Happy.mp3-0722767eac8e0e88e45b11fb18eaea21.mp3str"
+
+[deps]
+
+source_file="res://Sound/HoliznaCC0 - Poor, But Happy.mp3"
+dest_files=[ "res://.import/HoliznaCC0 - Poor, But Happy.mp3-0722767eac8e0e88e45b11fb18eaea21.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
