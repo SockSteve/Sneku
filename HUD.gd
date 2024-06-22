@@ -4,7 +4,7 @@ func update_lives(lives):
 	$HBoxContainer/life_counter/ColorRect2/ColorRect/LifeCounter.text = str(lives)
 	
 func update_score(score):
-	$HBoxContainer/Food_Score/ColorRect/Score.text = str(score)
+	$HBoxContainer/Score.text = str(score)
 
 func got_power_up(power):
 	if power == "laser":

@@ -1,0 +1,438 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://Graphics/Snake_Heart.png" type="Texture" id=1]
+[ext_resource path="res://Graphics/Apple.png" type="Texture" id=2]
+[ext_resource path="res://Graphics/Head_Change_Icon.png" type="Texture" id=3]
+[ext_resource path="res://Graphics/Food_40.png" type="Texture" id=4]
+[ext_resource path="res://Graphics/Laser.png" type="Texture" id=5]
+[ext_resource path="res://Graphics/shifter_icon.png" type="Texture" id=6]
+[ext_resource path="res://Graphics/FastForward.png" type="Texture" id=7]
+[ext_resource path="res://Graphics/Slowdown.png" type="Texture" id=8]
+[ext_resource path="res://Menu.gd" type="Script" id=9]
+[ext_resource path="res://Graphics/portal_icon.png" type="Texture" id=10]
+[ext_resource path="res://Font/HopeGold_1.tres" type="DynamicFont" id=11]
+[ext_resource path="res://Font/HopeGold_16.tres" type="DynamicFont" id=12]
+[ext_resource path="res://Font/HopeGold.ttf" type="DynamicFontData" id=13]
+[ext_resource path="res://Hints.tscn" type="PackedScene" id=14]
+
+[sub_resource type="DynamicFont" id=1]
+size = 64
+font_data = ExtResource( 13 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+font_data = ExtResource( 13 )
+
+[node name="Menu" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 35.0
+margin_top = 35.0
+margin_right = -35.0
+margin_bottom = -35.0
+color = Color( 0, 0, 0, 0.784314 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 40.0
+margin_top = 40.0
+margin_right = -40.0
+margin_bottom = -40.0
+color = Color( 0.219608, 0.215686, 0.215686, 0.588235 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="ColorRect2"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 60.0
+margin_right = 100.0
+margin_bottom = 40.0
+custom_fonts/font = SubResource( 1 )
+text = "Menu"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect7" type="TextureRect" parent="ColorRect2"]
+margin_left = 30.0
+margin_top = 1.0
+margin_right = 70.0
+margin_bottom = 41.0
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect8" type="TextureRect" parent="ColorRect2"]
+margin_left = 158.0
+margin_right = 178.0
+margin_bottom = 20.0
+texture = ExtResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect9" type="TextureRect" parent="ColorRect2"]
+margin_left = 157.0
+margin_top = 20.0
+margin_right = 177.0
+margin_bottom = 40.0
+texture = ExtResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lives" type="Label" parent="ColorRect2"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -190.0
+margin_right = -130.0
+margin_bottom = 40.0
+custom_fonts/font = ExtResource( 11 )
+text = "Lives"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="Label" parent="ColorRect2"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -83.0
+margin_top = 1.0
+margin_right = -21.0
+margin_bottom = 41.0
+custom_fonts/font = SubResource( 2 )
+text = "Score"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect2"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -180.0
+margin_top = -180.0
+margin_right = 220.0
+margin_bottom = 100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect2/HBoxContainer"]
+margin_right = 200.0
+margin_bottom = 299.0
+rect_min_size = Vector2( 200, 0 )
+custom_constants/separation = 10
+
+[node name="Label" type="Label" parent="ColorRect2/HBoxContainer/VBoxContainer"]
+margin_right = 200.0
+margin_bottom = 26.0
+custom_fonts/font = ExtResource( 11 )
+text = "Controls:"
+
+[node name="Label8" type="Label" parent="ColorRect2/HBoxContainer/VBoxContainer"]
+margin_top = 36.0
+margin_right = 200.0
+margin_bottom = 49.0
+custom_fonts/font = ExtResource( 12 )
+text = "move up: w / up"
+
+[node name="Label9" type="Label" parent="ColorRect2/HBoxContainer/VBoxContainer"]
+margin_top = 59.0
+margin_right = 200.0
+margin_bottom = 72.0
+custom_fonts/font = ExtResource( 12 )
+text = "move down: s / down"
+
+[node name="Label10" type="Label" parent="ColorRect2/HBoxContainer/VBoxContainer"]
+margin_top = 82.0
+margin_right = 200.0
+margin_bottom = 95.0
+custom_fonts/font = ExtResource( 12 )
+text = "move left: a / left"
+
+[node name="Label11" type="Label" parent="ColorRect2/HBoxContainer/VBoxContainer"]
+margin_top = 105.0
+margin_right = 200.0
+margin_bottom = 118.0
+custom_fonts/font = ExtResource( 12 )
+text = "move right: d / right"
+
+[node name="Label12" type="Label" parent="ColorRect2/HBoxContainer/VBoxContainer"]
+margin_top = 128.0
+margin_right = 200.0
+margin_bottom = 141.0
+custom_fonts/font = ExtResource( 12 )
+text = "Portal Home: f / enter"
+
+[node name="VBoxContainer2" type="GridContainer" parent="ColorRect2/HBoxContainer"]
+margin_left = 204.0
+margin_right = 408.0
+margin_bottom = 299.0
+rect_min_size = Vector2( 120, 200 )
+custom_constants/vseparation = 40
+custom_constants/hseparation = 40
+columns = 2
+
+[node name="FastForward" type="VBoxContainer" parent="ColorRect2/HBoxContainer/VBoxContainer2"]
+margin_right = 85.0
+margin_bottom = 73.0
+
+[node name="Label2" type="Label" parent="ColorRect2/HBoxContainer/VBoxContainer2/FastForward"]
+margin_right = 85.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 12 )
+text = "Fast Forward: 
+y / shift"
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect2/HBoxContainer/VBoxContainer2/FastForward"]
+margin_top = 33.0
+margin_right = 85.0
+margin_bottom = 73.0
+texture = ExtResource( 7 )
+
+[node name="Slowdown" type="VBoxContainer" parent="ColorRect2/HBoxContainer/VBoxContainer2"]
+margin_left = 125.0
+margin_right = 204.0
+margin_bottom = 73.0
+
+[node name="Label3" type="Label" parent="ColorRect2/HBoxContainer/VBoxContainer2/Slowdown"]
+margin_right = 79.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 12 )
+text = "Slowdown:
+v"
+
+[node name="TextureRect2" type="TextureRect" parent="ColorRect2/HBoxContainer/VBoxContainer2/Slowdown"]
+margin_top = 33.0
+margin_right = 79.0
+margin_bottom = 73.0
+texture = ExtResource( 8 )
+
+[node name="ShiftBlocks" type="VBoxContainer" parent="ColorRect2/HBoxContainer/VBoxContainer2"]
+margin_top = 113.0
+margin_right = 85.0
+margin_bottom = 186.0
+
+[node name="Label6" type="Label" parent="ColorRect2/HBoxContainer/VBoxContainer2/ShiftBlocks"]
+margin_right = 85.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 12 )
+text = "Shift blocks:
+q / c"
+
+[node name="TextureRect3" type="TextureRect" parent="ColorRect2/HBoxContainer/VBoxContainer2/ShiftBlocks"]
+margin_top = 33.0
+margin_right = 85.0
+margin_bottom = 73.0
+texture = ExtResource( 6 )
+
+[node name="Laser" type="VBoxContainer" parent="ColorRect2/HBoxContainer/VBoxContainer2"]
+margin_left = 125.0
+margin_top = 113.0
+margin_right = 204.0
+margin_bottom = 186.0
+
+[node name="Label4" type="Label" parent="ColorRect2/HBoxContainer/VBoxContainer2/Laser"]
+margin_right = 79.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 12 )
+text = "Laser:
+space"
+
+[node name="TextureRect4" type="TextureRect" parent="ColorRect2/HBoxContainer/VBoxContainer2/Laser"]
+margin_top = 33.0
+margin_right = 79.0
+margin_bottom = 73.0
+texture = ExtResource( 5 )
+
+[node name="HeadChange" type="VBoxContainer" parent="ColorRect2/HBoxContainer/VBoxContainer2"]
+margin_top = 226.0
+margin_right = 85.0
+margin_bottom = 299.0
+
+[node name="Label5" type="Label" parent="ColorRect2/HBoxContainer/VBoxContainer2/HeadChange"]
+margin_right = 85.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 12 )
+text = "Head change:
+e / x"
+
+[node name="TextureRect5" type="TextureRect" parent="ColorRect2/HBoxContainer/VBoxContainer2/HeadChange"]
+margin_top = 33.0
+margin_right = 85.0
+margin_bottom = 73.0
+texture = ExtResource( 3 )
+
+[node name="PortalHome" type="VBoxContainer" parent="ColorRect2/HBoxContainer/VBoxContainer2"]
+margin_left = 125.0
+margin_top = 226.0
+margin_right = 204.0
+margin_bottom = 299.0
+
+[node name="Label7" type="Label" parent="ColorRect2/HBoxContainer/VBoxContainer2/PortalHome"]
+margin_right = 79.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 12 )
+text = "portal home: 
+f / enter"
+
+[node name="TextureRect6" type="TextureRect" parent="ColorRect2/HBoxContainer/VBoxContainer2/PortalHome"]
+margin_top = 33.0
+margin_right = 79.0
+margin_bottom = 73.0
+texture = ExtResource( 10 )
+
+[node name="MusicText" type="Label" parent="ColorRect2"]
+margin_left = 46.0
+margin_top = 249.0
+margin_right = 116.0
+margin_bottom = 289.0
+custom_fonts/font = ExtResource( 11 )
+text = "Music:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MusicSlider" type="HSlider" parent="ColorRect2"]
+margin_left = 122.0
+margin_top = 253.0
+margin_right = 242.0
+margin_bottom = 293.0
+min_value = -24.0
+max_value = 0.0
+value = -9.0
+tick_count = 12
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SFXText" type="Label" parent="ColorRect2"]
+margin_left = 67.0
+margin_top = 278.0
+margin_right = 121.0
+margin_bottom = 333.0
+custom_fonts/font = ExtResource( 11 )
+text = "SFX:"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SFXSlider" type="HSlider" parent="ColorRect2"]
+margin_left = 123.0
+margin_top = 290.0
+margin_right = 243.0
+margin_bottom = 330.0
+min_value = -24.0
+max_value = 0.0
+value = -9.0
+tick_count = 12
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Btn_Continue" type="Button" parent="ColorRect2"]
+anchor_left = 0.385
+anchor_top = 0.692
+anchor_right = 0.385
+anchor_bottom = 0.692
+margin_left = -141.2
+margin_top = 68.16
+margin_right = -27.2
+margin_bottom = 100.16
+focus_neighbour_left = NodePath("../SFXSlider")
+focus_neighbour_top = NodePath("../SFXSlider")
+focus_neighbour_right = NodePath("../Btn_Restart")
+focus_neighbour_bottom = NodePath("../Btn_Restart")
+focus_next = NodePath("../Btn_Restart")
+focus_previous = NodePath("../SFXSlider")
+focus_mode = 0
+custom_fonts/font = ExtResource( 11 )
+text = "continue"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Btn_Hints" type="Button" parent="ColorRect2"]
+anchor_left = 0.385
+anchor_top = 0.692
+anchor_right = 0.385
+anchor_bottom = 0.692
+margin_left = -141.2
+margin_top = 23.16
+margin_right = -63.2
+margin_bottom = 55.16
+focus_neighbour_left = NodePath("../SFXSlider")
+focus_neighbour_top = NodePath("../SFXSlider")
+focus_neighbour_right = NodePath("../Btn_Restart")
+focus_neighbour_bottom = NodePath("../Btn_Restart")
+focus_next = NodePath("../Btn_Restart")
+focus_previous = NodePath("../SFXSlider")
+custom_fonts/font = ExtResource( 11 )
+text = "Hints"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Btn_Restart" type="Button" parent="ColorRect2"]
+anchor_left = 0.385
+anchor_top = 0.692
+anchor_right = 0.385
+anchor_bottom = 0.692
+margin_left = -141.2
+margin_top = 116.16
+margin_right = -43.2
+margin_bottom = 148.16
+custom_fonts/font = ExtResource( 11 )
+text = "restart"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="deleteSavedata" type="Button" parent="ColorRect2"]
+margin_left = 299.0
+margin_top = 478.0
+margin_right = 499.0
+margin_bottom = 510.0
+custom_fonts/font = ExtResource( 11 )
+text = "delete savedata"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Hints" parent="." instance=ExtResource( 14 )]
+visible = false
+
+[connection signal="value_changed" from="ColorRect2/MusicSlider" to="." method="_on_MusicSlider_value_changed"]
+[connection signal="value_changed" from="ColorRect2/SFXSlider" to="." method="_on_SFXSlider_value_changed"]
+[connection signal="pressed" from="ColorRect2/Btn_Continue" to="." method="_on_Btn_Continue_pressed"]
+[connection signal="pressed" from="ColorRect2/Btn_Hints" to="." method="_on_Btn_Hints_pressed"]
+[connection signal="pressed" from="ColorRect2/Btn_Restart" to="." method="_on_Btn_Restart_pressed"]
+[connection signal="pressed" from="ColorRect2/deleteSavedata" to="." method="_on_deleteSavedata_pressed"]

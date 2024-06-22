@@ -11,14 +11,17 @@ font_data = ExtResource( 1 )
 [node name="ColorRect2" type="ColorRect" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
-color = Color( 0, 0, 0, 0.0784314 )
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ColorRect" type="ColorRect" parent="ColorRect2"]
 margin_left = 2.0
 margin_top = 2.0
 margin_right = 38.0
 margin_bottom = 38.0
-color = Color( 0.0196078, 0.92549, 0.839216, 0.0784314 )
+color = Color( 0, 0, 0, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

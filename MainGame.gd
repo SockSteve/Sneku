@@ -14,6 +14,12 @@ const BLOCK_SHIFTER_POWER = 14
 const SLOWDOWN_POWER = 22
 const HEAD_CHANGE_POWER = 23
 const BED = 8
+const MORBID_BLOCK = 25
+const BLOCK_WHITE = 26
+
+var save_path = "user://save.dat"
+var dict : Dictionary = {"ending_1" : false, "ending_2" : false, "ending_3" : false, "ending_4" : false, "ending_5" : false,
+"ending_6" : false, "ending_7" : false, "ending_8" : false, "ending_9" : false, "ending_10" : false, "ending_11" : false, "ending_12" : false}
 
 onready var dangers = $SnakeApple.get_used_cells_by_id(2)
 onready var food = $SnakeApple.get_used_cells_by_id(4)
@@ -53,9 +59,39 @@ var has_shifter = false
 var shifted = false
 
 #ending variables
-onready var bed = $SnakeApple.get_used_cells_by_id(BED)
+var ending_1_completed = false
+var ending_2_completed = false
+var ending_3_completed = false
+var ending_4_completed = false
+var ending_5_completed = false
+var ending_6_completed = false
+var ending_7_completed = false
+var ending_8_completed = false
+var ending_9_completed = false
+var ending_10_completed = false
+var ending_11_completed = false
+var ending_12_completed = false
+onready var bed : Array = $SnakeApple.get_used_cells_by_id(BED)
+onready var morbid_zone = $SnakeApple.get_used_cells_by_id(MORBID_BLOCK)
+var morbid_zone_entered = false
+var glowing_spot := Vector2(-38, 7)
+var portaled = 0
+var portaled_finished = true
+var hidden_spot = Vector2(-23, 75)
+var food_max
+var apple_destroyed = false
+var walked_over_glowing_spot = false
+var cookie_square_1 = []
+var cookie_square_1_collected = false
+var cookie_square_2 = []
+var cookie_square_2_collected = false
+var cookie_square_3 = []
+var cookie_square_3_collected = false
+var cookie_square_4 = []
+var cookie_square_4_collected = false
 
 func _ready()->void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	$WorldCam.set_as_toplevel(true)
 	draw_snake()
 	get_tree().call_group("ScoreGroup", "update_score", score)
@@ -63,7 +99,36 @@ func _ready()->void:
 	place_apple()
 	draw_apple()
 	place_powers()
+	food_max = food.size()
+	$"Cookie Counter".text = str(food.size()) + "/" + str(food_max)
 
+	scan_cookie_squares(Vector2(5, 66), cookie_square_1)
+	scan_cookie_squares(Vector2(71, 2), cookie_square_2)
+	scan_cookie_squares(Vector2(2, -43), cookie_square_3)
+	scan_cookie_squares(Vector2(-35, 10), cookie_square_4)
+	
+	#load ending flags
+	var file = File.new()
+	if file.file_exists(save_path):
+		var error = file.open(save_path, File.READ)
+		if error == OK:
+			var ending_flags = file.get_var()
+			dict = ending_flags
+			print(ending_flags)
+			if ending_flags != null:
+				ending_1_completed = ending_flags.get("ending_1")
+				ending_2_completed = ending_flags.get("ending_2")
+				ending_3_completed = ending_flags.get("ending_3")
+				ending_4_completed = ending_flags.get("ending_4")
+				ending_5_completed = ending_flags.get("ending_5")
+				ending_6_completed = ending_flags.get("ending_6")
+				ending_7_completed = ending_flags.get("ending_7")
+				ending_8_completed = ending_flags.get("ending_8")
+				ending_9_completed = ending_flags.get("ending_9")
+				ending_10_completed = ending_flags.get("ending_10")
+				ending_11_completed = ending_flags.get("ending_11")
+				ending_12_completed = ending_flags.get("ending_12")
+	show_ending_star()
 
 func place_apple():
 	randomize()
@@ -206,16 +271,36 @@ func _input(_event):
 	#shoot laser
 	if Input.is_action_just_pressed("shoot_laser") and has_laser:
 		fire_laser()
+	#teleport home
+	if Input.is_action_just_pressed("teleport_home"):
+		portal_to_home()
+	#Menu
+	if Input.is_action_just_pressed("ui_cancel"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		get_tree().paused = true
+		$CanvasLayer/Menu.visible = true
+		$CanvasLayer/Menu.pause_game()
 
+func _unhandled_input(event):
+	if Input.is_action_just_pressed("ui_cancel"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		if !get_tree().paused:
+			get_tree().paused = true
+			$CanvasLayer/Menu.visible = true
+			print("ddd")
+		else:
+			get_tree().paused = false
+			$CanvasLayer/Menu.visible = false
+			print("ddd")
 
 func check_food_eaten():
-	if apple_pos == snake_body[0]:
+	if apple_pos == snake_body[0] and !apple_destroyed:
 		add_food = true
 		apple_game_score +=1
 		$AppleGameScore.update_score(apple_game_score)
 		score += 1
 		get_tree().call_group("ScoreGroup", "update_score", score)
-		$CrunchSound.play()
+		$SFX/CrunchSound.play()
 		place_apple()
 		draw_apple()
 		
@@ -227,7 +312,21 @@ func check_food_eaten():
 				food.erase(cookie_pos)
 				score += 1
 				get_tree().call_group("ScoreGroup", "update_score", score)
-				$CrunchSound.play()
+				$"Cookie Counter".text = str(food.size()) + "/" + str(food_max)
+				$SFX/CrunchSound.play()
+				
+				if check_cookie_square_eaten(cookie_square_1) == 0 and not cookie_square_1_collected:
+					$SnakeApple.set_cell(6, 67, BLOCK_WHITE)
+					cookie_square_1_collected = true
+				if check_cookie_square_eaten(cookie_square_2) == 0and not cookie_square_2_collected:
+					$SnakeApple.set_cell(72, 3, BLOCK_WHITE)
+					cookie_square_2_collected = true
+				if check_cookie_square_eaten(cookie_square_3) == 0 and not cookie_square_3_collected:
+					$SnakeApple.set_cell(3, -42, BLOCK_WHITE)
+					cookie_square_3_collected = true
+				if check_cookie_square_eaten(cookie_square_4) == 0 and not cookie_square_4_collected:
+					$SnakeApple.set_cell(-34, 11, BLOCK_WHITE)
+					cookie_square_4_collected = true
 
 
 func check_got_power_up():
@@ -257,6 +356,7 @@ func fire_laser():
 		var unique_laser: Array = [laser_spawn_point, laser_dir]
 		laser_collection.append(unique_laser)
 		draw_laser()
+		$SFX/LaserShoot.play()
 		shot_laser = true
 
 
@@ -285,12 +385,18 @@ func move_laser():
 func laser_hit():
 	for laser_array_index in laser_collection.size():
 		var next_cell = laser_collection[laser_array_index][0] + laser_collection[laser_array_index][1]
-		if $SnakeApple.get_cellv(next_cell) != -1:
+		if $SnakeApple.get_cellv(next_cell) != -1 and $SnakeApple.get_cellv(next_cell) != MORBID_BLOCK:
 			laser_collection.remove(laser_array_index)
+			$SFX/LaserHit.play()
+			if $SnakeApple.get_cellv(next_cell) == 21:
+				apple_destroyed = true
 			if $SnakeApple.get_cellv(next_cell) == SNAKE:
 				return true
 			elif $SnakeApple.get_cellv(next_cell) == 4:
 				return true
+			elif $SnakeApple.get_cellv(next_cell) == 24:
+				return true
+				
 			else:
 				$SnakeApple.set_cell(next_cell.x, next_cell.y, -1)
 				return true
@@ -346,6 +452,11 @@ func check_get_damage()->bool:
 		get_tree().call_group("ScoreGroup", "update_lives", lives)
 		return true
 		
+	if $SnakeApple.get_cellv(snake_body[0] + snake_dir) == 24:
+		delete_tiles(SNAKE)
+		lives -= 1
+		get_tree().call_group("ScoreGroup", "update_lives", lives)
+		return true
 	
 	if $SnakeApple.get_cellv(snake_body[0] + snake_dir) == SHIFTBLOCK or $SnakeApple.get_cellv(snake_body[0] + snake_dir) == SHIFTBLOCK_2:
 		delete_tiles(SNAKE)
@@ -375,8 +486,10 @@ func check_pan_cam():
 		screen_left_off += 15
 		$WorldCam.pan_right()
 		save_snake_for_retry()
-		$AppleGameScore.update_score(apple_game_score)
-		apple_game_score = 0
+		if apple_game_score != 10:
+			$AppleGameScore.update_score(apple_game_score)
+			apple_game_score = 0
+		portaled = 0
 		halt_time(.2)
 		
 		
@@ -385,8 +498,10 @@ func check_pan_cam():
 		screen_left_off -= 15
 		$WorldCam.pan_left()
 		save_snake_for_retry()
-		$AppleGameScore.update_score(apple_game_score)
-		apple_game_score = 0
+		if apple_game_score != 10:
+			$AppleGameScore.update_score(apple_game_score)
+			apple_game_score = 0
+		portaled = 0
 		halt_time(.2)
 		
 	elif snake_head.y > screen_down_off:
@@ -394,8 +509,10 @@ func check_pan_cam():
 		screen_up_off += 15
 		$WorldCam.pan_down()
 		save_snake_for_retry()
-		$AppleGameScore.update_score(apple_game_score)
-		apple_game_score = 0
+		if apple_game_score != 10:
+			$AppleGameScore.update_score(apple_game_score)
+			apple_game_score = 0
+		portaled = 0
 		halt_time(.2)
 		
 	elif snake_head.y < screen_up_off:
@@ -403,8 +520,10 @@ func check_pan_cam():
 		screen_up_off -= 15
 		$WorldCam.pan_up()
 		save_snake_for_retry()
-		$AppleGameScore.update_score(apple_game_score)
-		apple_game_score = 0
+		if apple_game_score != 10:
+			$AppleGameScore.update_score(apple_game_score)
+			apple_game_score = 0
+		portaled = 0
 		halt_time(.2)
 
 
@@ -425,8 +544,9 @@ func reset_room():
 	snake_dir = snake_save[1]
 	snake_moved = false
 	score -= save_food_eaten_temp_for_retry.size()
-	score -= apple_game_score
-	apple_game_score = 0
+	if apple_game_score != 10:
+		score -= apple_game_score
+		apple_game_score = 0
 	get_tree().call_group("ScoreGroup", "update_score", score)
 	$AppleGameScore.update_score(apple_game_score)
 	
@@ -457,6 +577,26 @@ func check_water(water_coords)->bool:
 	return true
 
 
+func portal_to_home():
+	$PortalHome.visible = true
+	portaled += 1
+	var snake_head_coord = snake_body[0]
+	$PortalSnake.position = $SnakeApple.map_to_world(snake_body[0])
+	$PortalSnake2.position = $SnakeApple.map_to_world(snake_body[1])
+	$PortalSnake.visible = true
+	$PortalSnake2.visible = true
+	snake_body[0] = Vector2(7,7)
+	portaled_finished = false
+
+
+func check_portal_finished():
+	if snake_body[snake_body.size()-1] == Vector2(7,7):
+		$PortalHome.visible = false
+		$PortalSnake.visible = false
+		$PortalSnake2.visible = false
+		portaled_finished = true
+
+
 func halt_time(time):
 	$SnakeTick.stop()
 	yield(get_tree().create_timer(time),"timeout")
@@ -466,6 +606,8 @@ func halt_time(time):
 func _on_SnakeTick_timeout():
 	#check_game_over()
 	#draw_apple()
+	if !portaled_finished:
+		check_portal_finished()
 	check_got_power_up()
 	move_snake()
 	draw_snake()
@@ -473,18 +615,9 @@ func _on_SnakeTick_timeout():
 	snake_moved = false
 	shot_laser = false
 	check_food_eaten()
-	#quick and dirty
-	if score == 100:
-		for bed_part in bed:
-			if bed_part == bed[0]:
-				$SnakeApple.set_cell(bed_part.x, bed_part.y, BED, false, false, false, Vector2(0,0))
-			elif bed_part == bed[bed.size()-1]:
-				$SnakeApple.set_cell(bed_part.x, bed_part.y, BED, false, false, false, Vector2(2,0))
-			else:
-				$SnakeApple.set_cell(bed_part.x, bed_part.y, BED, false, false, false, Vector2(1,0))
-			
-			if snake_body[0] == bed_part:
-				get_tree().change_scene("res://Ending_1.tscn")
+	check_end()
+	if not morbid_zone_entered:
+		check_enter_morbid_zone()
 
 
 func _on_Laser_Tick_timeout():
@@ -494,4 +627,227 @@ func _on_Laser_Tick_timeout():
 
 func _process(delta):
 	check_pan_cam()
+
+
+func respawn_bed():
+	for bed_part in bed:
+			if bed_part == bed[0]:
+				$SnakeApple.set_cell(bed_part.x, bed_part.y, BED, false, false, false, Vector2(0,0))
+			elif bed_part == bed[bed.size()-1]:
+				$SnakeApple.set_cell(bed_part.x, bed_part.y, BED, false, false, false, Vector2(2,0))
+			else:
+				$SnakeApple.set_cell(bed_part.x, bed_part.y, BED, false, false, false, Vector2(1,0))
+
+
+func check_enter_morbid_zone():
+	for coords in morbid_zone:
+		if snake_body[0] == coords and not morbid_zone_entered:
+			morbid_zone_entered = true
+			
 	
+	if morbid_zone_entered:
+		$BGM.stop()
+
+
+func scan_cookie_squares(cell, square):
+	var i = 0
+	var j = 0
+	while i < 3:
+		while j < 3:
+			if i != 1 or j != 1:
+				square.append(Vector2(cell.x + i, cell.y + j))
+			j += 1
+		j = 0
+		i += 1
+
+
+func check_cookie_square_eaten(cookie_square)-> int:
+	var amnt = 0
+	for cookie in cookie_square:
+		if $SnakeApple.get_cellv(cookie) == 4:
+			amnt += 1
+	return amnt
+
+
+func check_end():
+	if score >= 100 and !food.empty() and not morbid_zone_entered:
+		ending_1()
+	
+	elif score == 1:
+		ending_2()
+		
+	elif score == 0 and has_laser:
+		ending_3()
+		
+	elif food.empty():
+		ending_4()
+	
+	elif morbid_zone_entered:
+		ending_5()
+	
+	elif apple_game_score >= 50:
+		ending_6()
+		
+	if snake_body[0] == glowing_spot and score == 0 and not morbid_zone_entered:
+		ending_7()
+		
+	if snake_body[0] == glowing_spot and morbid_zone_entered:
+		ending_8()
+	
+	elif portaled >= 10:
+		ending_9()
+		
+	elif snake_body[0] == hidden_spot and apple_destroyed and cookie_square_1_collected and cookie_square_2_collected and cookie_square_3_collected and cookie_square_4_collected and apple_game_score == 10:
+		ending_11()
+	
+	elif snake_body[0] == hidden_spot:
+		ending_10()
+	
+	if ending_12():
+		get_tree().change_scene("res://Endings/Ending_12.tscn")
+
+
+func save_ending_flag(ending: String, ending_flag: bool):
+	dict[ending] = ending_flag
+	var file = File.new()
+	var error = file.open(save_path, File.WRITE)
+	if error == OK:
+		file.store_var(dict)
+		file.close()
+		print("saved")
+
+
+func show_ending_star():
+	if ending_1_completed:
+		$EndingVisuals/Ending_Star_1.visible = true
+	if ending_2_completed:
+		$EndingVisuals/Ending_Star_2.visible = true
+	if ending_3_completed:
+		$EndingVisuals/Ending_Star_3.visible = true
+	if ending_4_completed:
+		$EndingVisuals/Ending_Star_4.visible = true
+	if ending_5_completed:
+		$EndingVisuals/Ending_Star_5.visible = true
+	if ending_6_completed:
+		$EndingVisuals/Ending_Star_6.visible = true
+	if ending_7_completed:
+		$EndingVisuals/Ending_Star_7.visible = true
+	if ending_8_completed:
+		$EndingVisuals/Ending_Star_8.visible = true
+	if ending_9_completed:
+		$EndingVisuals/Ending_Star_9.visible = true
+	if ending_10_completed:
+		$EndingVisuals/Ending_Star_10.visible = true
+	if ending_11_completed:
+		$EndingVisuals/Ending_Star_11.visible = true
+	if ending_1_completed and ending_2_completed and ending_3_completed and ending_4_completed and ending_5_completed and ending_6_completed and ending_7_completed and ending_8_completed and ending_9_completed and ending_10_completed and ending_11_completed:
+		$EndingVisuals/glow_ending_12.visible = true
+	if ending_12_completed:
+		$EndingVisuals/Ending_Star_12.visible = true
+
+# score 100 -> Bed
+func ending_1():
+	respawn_bed()
+	for bed_part in bed:
+		if snake_body[0] == bed_part:
+			ending_1_completed = true
+			save_ending_flag("ending_1", ending_1_completed)
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			get_tree().change_scene("res://Endings/Ending_1.tscn")
+
+
+# score 1 -> Bed
+func ending_2():
+	
+	respawn_bed()
+	for bed_part in bed:
+		if snake_body[0] == bed_part:
+			ending_2_completed = true
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			save_ending_flag("ending_2", ending_2_completed)
+			get_tree().change_scene("res://Endings/Ending_2.tscn")
+	
+# score 0 + has_laser -> Bed
+func ending_3():
+	respawn_bed()
+	for bed_part in bed:
+		if snake_body[0] == bed_part:
+			ending_3_completed = true
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			save_ending_flag("ending_3", ending_3_completed)
+			get_tree().change_scene("res://Endings/Ending_3.tscn")
+
+# score == cookie amount glutton
+func ending_4():
+	respawn_bed()
+	for bed_part in bed:
+		if snake_body[0] == bed_part:
+			ending_4_completed = true
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			save_ending_flag("ending_4", ending_4_completed)
+			get_tree().change_scene("res://Endings/Ending_4.tscn")
+
+# go morbid realms -> Bed
+func ending_5():
+	respawn_bed()
+	for bed_part in bed:
+		if snake_body[0] == bed_part:
+			ending_5_completed = true
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			save_ending_flag("ending_5", ending_5_completed)
+			get_tree().change_scene("res://Endings/Ending_5.tscn")
+
+# 50 fruits
+func ending_6():
+	ending_6_completed = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	save_ending_flag("ending_6", ending_6_completed)
+	get_tree().change_scene("res://Endings/Ending_6.tscn")
+
+# score 0 -> glowing spot
+func ending_7():
+	ending_7_completed = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	save_ending_flag("ending_7", ending_7_completed)
+	get_tree().change_scene("res://Endings/Ending_7.tscn")
+
+# go morbid realms -> glowing spot
+func ending_8():
+	ending_8_completed = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	save_ending_flag("ending_8", ending_8_completed)
+	get_tree().change_scene("res://Endings/Ending_8.tscn")
+	
+# portal 10 times in the same room
+func ending_9():
+	ending_9_completed = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	save_ending_flag("ending_9", ending_9_completed)
+	get_tree().change_scene("res://Endings/Ending_9.tscn")
+
+# hidden spot in morbid realms
+func ending_10():
+	ending_10_completed = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	save_ending_flag("ending_10", ending_10_completed)
+	get_tree().change_scene("res://Endings/Ending_10.tscn")
+
+# enigma
+# score at least 10 apple
+# eat all rings of cookies
+# destroy fruit
+# -> hidden spot
+func ending_11():
+	ending_11_completed = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	save_ending_flag("ending_11", ending_11_completed)
+	get_tree().change_scene("res://Endings/Ending_11.tscn")
+
+# get all other endings -> Bed
+func ending_12():
+	if ending_1_completed and ending_2_completed and ending_3_completed and ending_4_completed and ending_5_completed and ending_6_completed and ending_7_completed and ending_8_completed and ending_9_completed and ending_10_completed and ending_11_completed and snake_body[0] == Vector2(22, 7):
+		ending_12_completed = true
+		save_ending_flag("ending_12", ending_12_completed)
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		return true
+	return false

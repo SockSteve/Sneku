@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Snake Soundtrack adapted.wav-2393ac1e9343cdeef59cdd42cb49e02f.sample"
+
+[deps]
+
+source_file="res://Sound/Snake Soundtrack adapted.wav"
+dest_files=[ "res://.import/Snake Soundtrack adapted.wav-2393ac1e9343cdeef59cdd42cb49e02f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0

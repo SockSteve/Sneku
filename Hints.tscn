@@ -1,0 +1,180 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Hints.gd" type="Script" id=1]
+[ext_resource path="res://Graphics/Apple.png" type="Texture" id=2]
+[ext_resource path="res://Graphics/Food_40.png" type="Texture" id=4]
+[ext_resource path="res://Font/HopeGold_1.tres" type="DynamicFont" id=11]
+[ext_resource path="res://Font/HopeGold_16.tres" type="DynamicFont" id=12]
+
+[node name="Hints" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 35.0
+margin_top = 35.0
+margin_right = -35.0
+margin_bottom = -35.0
+color = Color( 0, 0, 0, 0.784314 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 40.0
+margin_top = 40.0
+margin_right = -40.0
+margin_bottom = -40.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 0.784314 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect8" type="TextureRect" parent="ColorRect2"]
+margin_left = 77.0
+margin_top = 408.0
+margin_right = 127.0
+margin_bottom = 458.0
+texture = ExtResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect9" type="TextureRect" parent="ColorRect2"]
+margin_left = 307.0
+margin_top = 212.0
+margin_right = 357.0
+margin_bottom = 262.0
+texture = ExtResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect2"]
+margin_left = 39.0
+margin_top = 81.0
+margin_right = 475.0
+margin_bottom = 410.0
+rect_min_size = Vector2( 200, 0 )
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="ColorRect2/VBoxContainer"]
+margin_right = 436.0
+margin_bottom = 26.0
+custom_fonts/font = ExtResource( 11 )
+text = "Hints"
+align = 1
+
+[node name="Label8" type="Label" parent="ColorRect2/VBoxContainer"]
+margin_top = 36.0
+margin_right = 436.0
+margin_bottom = 49.0
+custom_fonts/font = ExtResource( 12 )
+text = "Ending 1: score at least 100 and sleep. The music keeps you company "
+
+[node name="Label9" type="Label" parent="ColorRect2/VBoxContainer"]
+margin_top = 59.0
+margin_right = 436.0
+margin_bottom = 72.0
+custom_fonts/font = ExtResource( 12 )
+text = "Ending 2: just a cookie"
+
+[node name="Label10" type="Label" parent="ColorRect2/VBoxContainer"]
+margin_top = 82.0
+margin_right = 436.0
+margin_bottom = 95.0
+custom_fonts/font = ExtResource( 12 )
+text = "Ending 3: hidden"
+
+[node name="Label11" type="Label" parent="ColorRect2/VBoxContainer"]
+margin_top = 105.0
+margin_right = 436.0
+margin_bottom = 118.0
+custom_fonts/font = ExtResource( 12 )
+text = "Ending 4: there are no more cookies to eat, time to sleep"
+
+[node name="Label12" type="Label" parent="ColorRect2/VBoxContainer"]
+margin_top = 128.0
+margin_right = 436.0
+margin_bottom = 141.0
+custom_fonts/font = ExtResource( 12 )
+text = "Ending 5: i was there, sleep and forget"
+
+[node name="Label13" type="Label" parent="ColorRect2/VBoxContainer"]
+margin_top = 151.0
+margin_right = 436.0
+margin_bottom = 164.0
+custom_fonts/font = ExtResource( 12 )
+text = "Ending 6: cookies contain milk, "
+
+[node name="Label14" type="Label" parent="ColorRect2/VBoxContainer"]
+margin_top = 174.0
+margin_right = 436.0
+margin_bottom = 187.0
+custom_fonts/font = ExtResource( 12 )
+text = "Ending 7: I'm small and going places"
+
+[node name="Label15" type="Label" parent="ColorRect2/VBoxContainer"]
+margin_top = 197.0
+margin_right = 436.0
+margin_bottom = 210.0
+custom_fonts/font = ExtResource( 12 )
+text = "Ending 8: now that I know the truth, where was that spot again? "
+
+[node name="Label16" type="Label" parent="ColorRect2/VBoxContainer"]
+margin_top = 220.0
+margin_right = 436.0
+margin_bottom = 233.0
+custom_fonts/font = ExtResource( 12 )
+text = "Ending 9: don't use the portal too many times  in the same room!"
+
+[node name="Label17" type="Label" parent="ColorRect2/VBoxContainer"]
+margin_top = 243.0
+margin_right = 436.0
+margin_bottom = 256.0
+custom_fonts/font = ExtResource( 12 )
+text = "Ending 10: escape everything"
+
+[node name="Label18" type="Label" parent="ColorRect2/VBoxContainer"]
+margin_top = 266.0
+margin_right = 436.0
+margin_bottom = 279.0
+custom_fonts/font = ExtResource( 12 )
+text = "Ending 11: somewhere outside, there is a massage. why is the 10 white?"
+
+[node name="Label19" type="Label" parent="ColorRect2/VBoxContainer"]
+margin_top = 289.0
+margin_right = 436.0
+margin_bottom = 302.0
+custom_fonts/font = ExtResource( 12 )
+text = "Ending 12: all the stars paved the way"
+
+[node name="Btn_Return" type="Button" parent="ColorRect2"]
+anchor_left = 0.385
+anchor_top = 0.692
+anchor_right = 0.385
+anchor_bottom = 0.692
+margin_top = 72.16
+margin_right = 92.8
+margin_bottom = 104.16
+custom_fonts/font = ExtResource( 11 )
+text = "close"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="ColorRect2/Btn_Return" to="." method="_on_Btn_Return_pressed"]

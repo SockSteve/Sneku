@@ -42,6 +42,9 @@ margin_right = 15.0
 margin_bottom = 38.0
 texture = ExtResource( 1 )
 expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Score" type="Label" parent="ColorRect"]
 self_modulate = Color( 1, 1, 1, 0.588235 )
