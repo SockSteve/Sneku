@@ -91,7 +91,12 @@ var cookie_square_4 = []
 var cookie_square_4_collected = false
 
 func _ready()->void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	get_tree().paused = true
+	$CanvasLayer/Menu.visible = true
+	$CanvasLayer/Menu.pause_game()
+	
 	$WorldCam.set_as_toplevel(true)
 	draw_snake()
 	get_tree().call_group("ScoreGroup", "update_score", score)
@@ -287,11 +292,9 @@ func _unhandled_input(event):
 		if !get_tree().paused:
 			get_tree().paused = true
 			$CanvasLayer/Menu.visible = true
-			print("ddd")
 		else:
 			get_tree().paused = false
 			$CanvasLayer/Menu.visible = false
-			print("ddd")
 
 func check_food_eaten():
 	if apple_pos == snake_body[0] and !apple_destroyed:
