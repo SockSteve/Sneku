@@ -1596,6 +1596,7 @@ __meta__ = {
 position = Vector2( -1520, 280 )
 frames = SubResource( 13 )
 animation = "engima"
+frame = 3
 playing = true
 centered = false
 
@@ -1612,6 +1613,7 @@ visible = false
 position = Vector2( 880, 280 )
 frames = SubResource( 13 )
 animation = "teleport"
+frame = 3
 playing = true
 centered = false
 
@@ -1797,7 +1799,7 @@ tile_data = PoolIntArray( -3866669, 24, 0, -3866668, 24, 0, -3866667, 24, 0, -38
 visible = false
 position = Vector2( 280, 280 )
 frames = SubResource( 19 )
-frame = 2
+frame = 4
 playing = true
 centered = false
 
@@ -1819,7 +1821,7 @@ __meta__ = {
 visible = false
 position = Vector2( 280, 280 )
 frames = SubResource( 19 )
-frame = 1
+frame = 3
 playing = true
 centered = false
 
@@ -1827,6 +1829,7 @@ centered = false
 visible = false
 position = Vector2( 280, 280 )
 frames = SubResource( 19 )
+frame = 2
 playing = true
 centered = false
 

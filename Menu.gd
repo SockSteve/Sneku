@@ -2,7 +2,7 @@ extends Control
 
 var save_path = "user://save.dat"
 var save_path_settings = "user://save_settings.dat"
-var dict : Dictionary = {"sfx_volume": 0, "music_volume": 0}
+var dict : Dictionary = {"sfx_volume": 0, "music_volume": 0, "default_paused": true}
 var game_paused = false
 
 func _ready():
@@ -22,6 +22,8 @@ func _ready():
 					sfx_piece.volume_db = dict.get("sfx_volume")
 					$ColorRect2/SFXSlider.value = dict.get("sfx_volume")
 					print(dict)
+				
+				$ColorRect2/CheckBox.pressed = dict.get("default_paused")
 	
 
 func _on_Btn_Continue_pressed():
@@ -89,3 +91,12 @@ func _on_SFXSlider_value_changed(value):
 
 func _on_Btn_Hints_pressed():
 	$Hints.visible = true
+
+
+func _on_CheckBox_pressed():
+	dict["default_paused"] = $ColorRect2/CheckBox.pressed
+	var file = File.new()
+	var error = file.open(save_path_settings, File.WRITE)
+	if error == OK:
+		file.store_var(dict)
+		file.close()

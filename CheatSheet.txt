@@ -1,0 +1,39 @@
+Ending 1:
+Eat 100 cookies and go to bed
+
+Ending 2:
+Eat 1 cookie and go to bed
+
+Ending 3:
+Eat 0 cookies, collect the laser power up and go to bed
+
+Ending 4:
+Eat all cookies and go to bed
+
+Ending 5:
+go out of bounds and go to bed
+
+Ending 6:
+eat 50 fruit
+
+Ending 7:
+Eat 0 cookies and go to the wine red area into the glowing spot
+
+Ending 8:
+Go out of bounds and go to the wine red area into the glowing spot
+
+Ending 9:
+Warp 10 Times
+
+Ending 10:
+There is a gap in the world border in the out of bounds area on the south west side of the apple eating minigame.
+go there.
+
+Ending 11:
+In each area is a black block surrounded by a ring of cookies.
+Eat all the cookie rings and make the 4 blocks white.
+Score 10 points by the apple eating minigame and destroy the apple with the laser.
+then go to the gap from Ending 10
+
+Ending 12:
+Complete all previous endings and go into the middle of the stars

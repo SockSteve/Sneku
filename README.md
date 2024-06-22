@@ -1,4 +1,4 @@
-# Open World Snake Game
+# Sneku
 
 Welcome to my first real project in Godot, an open-world Snake game with a twist! This game was created a few years ago as I was exploring the capabilities of the Godot Engine. 
 
@@ -26,13 +26,25 @@ The game features twelve unique endings, each unlocked by completing specific ch
 
 ## Installation
 
-### play in editor
+### play from source
 
 1. Clone the repository:
 
-2. Open the project in Godot Engine.
+2. Open the project in Godot 3.
 
-3. Run the game from the Godot editor.
+3. Run the game from the editor.
+
+### play from Binary
+
+1. Go to the releases:
+
+2. Download the Binary fit for your OS.
+
+3. Run the game.
+
+### play on Itch.io
+
+link: https://socksteve.itch.io/sneku
 
 ## Contributing
 

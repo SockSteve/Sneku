@@ -92,10 +92,14 @@ var cookie_square_4_collected = false
 
 func _ready()->void:
 	#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	get_tree().paused = true
-	$CanvasLayer/Menu.visible = true
-	$CanvasLayer/Menu.pause_game()
+	if $CanvasLayer/Menu.dict.get("default_paused"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		get_tree().paused = true
+		$CanvasLayer/Menu.visible = true
+		$CanvasLayer/Menu.pause_game()
+	
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	
 	$WorldCam.set_as_toplevel(true)
 	draw_snake()
